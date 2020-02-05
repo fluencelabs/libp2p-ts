@@ -3,17 +3,16 @@
 // Definitions by: Jaco Greeff <https://github.com/jacogr>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 
-/// <reference types="peer-id"/>
 /// <reference types="peer-info"/>
 
 declare class PeerBook {
     constructor ();
 
-    get (peer: PeerId | PeerInfo | string): PeerInfo;
+    get (peer: import("peer-id") | PeerInfo | string): PeerInfo;
     getAll (): { [peerId: string]: PeerInfo };
     getAllArray (): PeerInfo[];
-    getMultiaddrs (peer: PeerId | PeerInfo | string): string[];
-    has (peer: PeerId | PeerInfo | string): boolean;
+    getMultiaddrs (peer: import("peer-id") | PeerInfo | string): string[];
+    has (peer: import("peer-id") | PeerInfo | string): boolean;
     put (peerInfo: PeerInfo, replace?: boolean): PeerInfo;
     remove (peerInfo: PeerInfo, replace?: boolean): void;
 }
