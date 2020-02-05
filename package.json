@@ -5,16 +5,15 @@
   "repository": "https://github.com/chainsafe/libp2p-ts.git",
   "author": "ChainSafe Systems",
   "license": "ISC",
-  "resolutions": {
-    "typescript": "^3.7.5"
-  },
   "scripts": {
     "build": "./build.sh",
     "lint": "tsc --noEmit --pretty",
     "test": "echo \"No 'yarn run test' available\""
   },
   "dependencies": {
-    "@types/chrome": "^0.0.92"
+    "@types/node": "^13.7.0",
+    "libp2p-crypto": "^0.17.2",
+    "peer-id": "^0.13.7"
   },
   "devDependencies": {
     "typescript": "^3.7.5"
