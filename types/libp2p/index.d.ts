@@ -24,13 +24,17 @@ declare namespace LibP2p {
             autoDial?: boolean,
             enabled?: boolean,
             bootstrap?: {
-                interval?: number
-                enabled?: boolean
-                list?: Multiaddr.Multiaddr[]
+                enabled?: boolean,
+                list: Array<string | Multiaddr.Multiaddr>,
+                interval?: number,
             },
             mdns?: {
-                interval?: number
-                enabled?: boolean
+                enabled?: boolean,
+                broadcast?: boolean,
+                interval?: number,
+                peerInfo: PeerInfo,
+                port?: number,
+                serviceTag?: string
             },
             webRTCStar?: {
                 interval?: number
@@ -60,7 +64,7 @@ declare namespace LibP2p {
         connEncryption?: Array<LibP2pSecio>,
         streamMuxer: Array<LibP2pMplex | LibP2pSpdy>,
         dht?: typeof LibP2pKadDht,
-        peerDiscovery: Array<typeof LibP2pBootstrap>,
+        peerDiscovery: Array<typeof LibP2pBootstrap | typeof LibP2pMdns>,
         transport: LibP2pTransport[]
     };
 
