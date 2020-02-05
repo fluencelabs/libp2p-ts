@@ -3,8 +3,8 @@
 // Definitions by: Jaco Greeff <https://github.com/jacogr>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 
-/// <reference types="peer-id"/>
 /// <reference types="peer-info"/>
+import PeerId from "peer-id";
 
 declare class PeerBook {
     constructor ();

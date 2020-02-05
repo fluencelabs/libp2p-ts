@@ -14,7 +14,8 @@
     "test": "echo \"No 'yarn run test' available\""
   },
   "dependencies": {
-    "@types/chrome": "^0.0.92"
+    "@types/chrome": "^0.0.92",
+    "peer-id": "^0.13.4"
   },
   "devDependencies": {
     "typescript": "^3.7.5"

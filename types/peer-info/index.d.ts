@@ -5,7 +5,7 @@
 
 /// <reference types="node"/>
 /// <reference types="multiaddr"/>
-/// <reference types="peer-id"/>
+import PeerId from "peer-id";
 
 declare namespace PeerInfo {
     type CreateCb = (error: Error | null, peerId?: PeerInfo) => any;
