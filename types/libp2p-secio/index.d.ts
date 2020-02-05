@@ -3,10 +3,8 @@
 // Definitions by: Jaco Greeff <https://github.com/jacogr>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 
-/// <reference types="peer-id"/>
-
 declare type LibP2pSecio = {
-  encrypt (localId: PeerId, conn: any, remoteId: PeerId, callback: () => any): void
+  encrypt (localId: import("peer-id"), conn: any, remoteId: import("peer-id"), callback: () => any): void
 }
 
 declare module 'libp2p-secio' {

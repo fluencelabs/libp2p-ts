@@ -5,7 +5,6 @@
 
 /// <reference types="node"/>
 /// <reference types="multiaddr"/>
-/// <reference types="peer-id"/>
 
 declare namespace PeerInfo {
     type CreateCb = (error: Error | null, peerId?: PeerInfo) => any;
@@ -28,12 +27,12 @@ declare namespace PeerInfo {
 }
 
 declare class PeerInfo {
-    constructor(id?: PeerId);
+    constructor(id?: import("peer-id"));
 
     static create(optsOrCb: PeerInfo.CreateOptions | PeerInfo.CreateCb, cb?: PeerInfo.CreateCb): void;
     static isPeerInfo(info: any): info is PeerInfo;
 
-    readonly id: PeerId;
+    readonly id: import("peer-id");
     readonly multiaddrs: PeerInfo.MultiaddrSet;
 
     connect(addr: Multiaddr.Multiaddr): void;

@@ -4,7 +4,6 @@
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 
 /// <reference types="node"/>
-/// <reference types="peer-id"/>
 
 declare namespace Multiaddr {
     type Code = number
