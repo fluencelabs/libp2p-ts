@@ -11,7 +11,6 @@
 /// <reference types="libp2p-mplex"/>
 /// <reference types="libp2p-secio"/>
 /// <reference types="libp2p-spdy"/>
-/// <reference types="peer-book"/>
 /// <reference types="peer-info"/>
 
 declare namespace LibP2p {
@@ -71,11 +70,21 @@ declare namespace LibP2p {
     export type Options = {
         config: OptionsConfig,
         modules: OptionsModules,
-        peerBook?: PeerBook,
         peerInfo: PeerInfo,
     };
 
     export type Events = 'peer:connect' | 'peer:disconnect' | 'peer:discovery' | 'start' | 'stop';
+}
+
+declare class PeerStore {
+    readonly peers: Map<string, PeerInfo>;
+}
+
+declare class Registrar {
+    getConnection(peerInfo: PeerInfo): LibP2pConnection;
+    handle: Function;
+    register(topology: Object): string;
+    unregister(id: string): boolean;
 }
 
 declare class LibP2p {
@@ -83,19 +92,22 @@ declare class LibP2p {
 
     constructor(options: LibP2p.Options);
 
-    readonly peerInfo: PeerInfo;
-    readonly peerBook: PeerBook;
+    static create(options: LibP2p.Options): Promise<LibP2p>;
 
-    dial(peerInfo: PeerInfo): Promise<LibP2pConnection>;
-    dialProtocol(peerInfo: PeerInfo | Multiaddr.Multiaddr, protocol: string): Promise<LibP2pConnection>;
-    hangUp(peerInfo: PeerInfo): Promise<void>;
-    handle(protocol: string, handler: (protocol: string, conn: LibP2pConnection) => any, matcher?: (protocol: string, requestedProtocol: string, cb: (error: Error | null, accept: boolean) => void) => any): void;
-    unhandle(protocol: string): void;
+    readonly peerInfo: PeerInfo;
+    readonly peerStore: PeerStore;
+    readonly registrar: Registrar;
+
+    dial(peerInfo: PeerInfo | import("peer-id") | Multiaddr.Multiaddr | string, options?: Object): Promise<LibP2pConnection | {stream: Object; protocol: string}>;
+    dialProtocol(peerInfo: PeerInfo | import("peer-id") | Multiaddr.Multiaddr | string, protocols: string[] | string, options?: Object): Promise<LibP2pConnection | {stream: Object; protocol: string}>;
+    hangUp(peerInfo: PeerInfo | import("peer-id") | Multiaddr.Multiaddr | string): Promise<void>;
+    handle(protocols: string[] | string, handler: (conn: LibP2pConnection, stream: Object, protocol: string) => any): void;
+    unhandle(protocols: string[] | string): void;
     isStarted(): boolean;
     on(event: LibP2p.Events, cb: (event: any) => any): this;
     once(event: LibP2p.Events, cb: (event: any) => any): this;
     removeListener(event: LibP2p.Events, cb: (event: any) => any): this;
-    ping(peerInfo: PeerInfo): Promise<void>;
+    ping(peerInfo: PeerInfo | import("peer-id") | Multiaddr.Multiaddr | string): Promise<void>;
     start(): Promise<void>;
     stop(): Promise<void>;
 }
