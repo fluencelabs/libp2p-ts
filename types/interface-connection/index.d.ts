@@ -3,8 +3,13 @@
 // Definitions by: Jaco Greeff <https://github.com/jacogr>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 
-/// <reference types="peer-info"/>
+/// <reference types="multiaddr"/>
 
 declare interface LibP2pConnection {
-    getPeerInfo (cb: (error: Error | null, peerInfo?: PeerInfo) => any): void;
+    localPeer: import("peer-id");
+    remotePeer: import("peer-id");
+    id: string;
+    localAddr: Multiaddr.Multiaddr;
+    remoteAddr: Multiaddr.Multiaddr;
+    close(): Promise<void>;
 }
