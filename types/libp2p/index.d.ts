@@ -98,10 +98,10 @@ declare class LibP2p {
     readonly peerStore: PeerStore;
     readonly registrar: Registrar;
 
-    dial(peerInfo: PeerInfo | import("peer-id") | Multiaddr.Multiaddr | string, options?: Object): Promise<LibP2pConnection | {stream: Object; protocol: string}>;
-    dialProtocol(peerInfo: PeerInfo | import("peer-id") | Multiaddr.Multiaddr | string, protocols: string[] | string, options?: Object): Promise<LibP2pConnection | {stream: Object; protocol: string}>;
+    dial(peerInfo: PeerInfo | import("peer-id") | Multiaddr.Multiaddr | string, options?: Object): Promise<LibP2pConnection | {stream: Stream; protocol: string}>;
+    dialProtocol(peerInfo: PeerInfo | import("peer-id") | Multiaddr.Multiaddr | string, protocols: string[] | string, options?: Object): Promise<LibP2pConnection | {stream: Stream; protocol: string}>;
     hangUp(peerInfo: PeerInfo | import("peer-id") | Multiaddr.Multiaddr | string): Promise<void>;
-    handle(protocols: string[] | string, handler: (conn: LibP2pConnection, stream: Object, protocol: string) => any): void;
+    handle(protocols: string[] | string, handler: (param: {connection: LibP2pConnection; stream: Stream; protocol: string}) => void): void;
     unhandle(protocols: string[] | string): void;
     isStarted(): boolean;
     on(event: LibP2p.Events, cb: (event: any) => any): this;
