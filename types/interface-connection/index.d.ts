@@ -5,11 +5,22 @@
 
 /// <reference types="multiaddr"/>
 
+declare interface Stream {
+    source: Function;
+    sink: Function;
+}
+
 declare interface LibP2pConnection {
     localPeer: import("peer-id");
     remotePeer: import("peer-id");
     id: string;
+    newStream(protocols: string[]): Promise<{stream: Stream; protocol: string}>;
+    addStream( stream: Stream, meta: {protocol: string, metadata: Object}): void;
+    removeStream(id: string): void;
+    streams: Stream[];
+    registry: Map<string, Stream>;
     localAddr: Multiaddr.Multiaddr;
     remoteAddr: Multiaddr.Multiaddr;
+    stat: {status: 'open' | 'closing' | 'closed'; timeline: {open: Date; upgraded: Date; close: Date}; direction: 'inbound' | 'outbound'; multiplexer: string; encryption: string; tags: string[]}
     close(): Promise<void>;
 }
