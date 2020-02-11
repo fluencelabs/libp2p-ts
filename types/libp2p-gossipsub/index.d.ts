@@ -24,12 +24,21 @@ declare module 'libp2p-gossipsub' {
         fallbackToFloodsub?: boolean,
     }
 
-    export default class GossipSub {
+    import * as Events from "events";
+
+    interface GossipSub extends Events.EventEmitter {}
+
+    class GossipSub  {
         constructor(peerInfo: PeerInfo, registrar: Registrar, options: Options);
+        publish(topic: string, data: Buffer): Promise<void>;
+        start(): Promise<void>;
+        stop(): Promise<void>;
+        subscribe(topic: string): void;
+        unsubscribe(topic: string): void;
         validate(message: IGossipMessage): Promise<boolean>;
         _emitMessage(topics: string[], message: IGossipMessage): void;
         getTopics(): string[];
-        // EventEmitter
-        emit(event: string | symbol, ...args: any[]): boolean;
     }
+
+    export default GossipSub;
 }
