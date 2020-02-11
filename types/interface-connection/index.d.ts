@@ -6,8 +6,8 @@
 /// <reference types="multiaddr"/>
 
 declare interface Stream {
-    source: Function;
-    sink: Function;
+    source: Iterator<unknown> | (() => Iterator<unknown>);
+    sink(source: AsyncIterator<unknown>): any;
 }
 
 declare interface LibP2pConnection {
