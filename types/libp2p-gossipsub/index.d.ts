@@ -39,6 +39,7 @@ declare module 'libp2p-gossipsub' {
         validate(message: IGossipMessage): Promise<boolean>;
         _emitMessage(topics: string[], message: IGossipMessage): void;
         getTopics(): string[];
+        _publish(messages: IGossipMessage[]): void;
     }
 
     export default GossipSub;
