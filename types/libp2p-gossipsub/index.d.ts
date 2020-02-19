@@ -12,6 +12,7 @@ declare module 'libp2p-gossipsub' {
     }
 
     export interface IGossipMessage {
+        ["message-id"]?: string;
         from: Buffer | string;
         data: Buffer;
         seqno: Buffer;
