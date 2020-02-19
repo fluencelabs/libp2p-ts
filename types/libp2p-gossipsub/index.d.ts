@@ -12,6 +12,7 @@ declare module 'libp2p-gossipsub' {
     }
 
     export interface IGossipMessage {
+        ["message-id"]?: string;
         from: Buffer | string;
         data: Buffer;
         seqno: Buffer;
@@ -38,6 +39,7 @@ declare module 'libp2p-gossipsub' {
         validate(message: IGossipMessage): Promise<boolean>;
         _emitMessage(topics: string[], message: IGossipMessage): void;
         getTopics(): string[];
+        _publish(messages: IGossipMessage[]): void;
     }
 
     export default GossipSub;
