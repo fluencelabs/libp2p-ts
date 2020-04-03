@@ -5,9 +5,7 @@
 
 /// <reference types="libp2p"/>
 
-import {ConnectionEncryption} from "../libp2p";
-
-declare type LibP2pSecio = ConnectionEncryption;
+declare type LibP2pSecio = LibP2p.ConnectionEncryption;
 
 declare module 'libp2p-secio' {
 const secio: LibP2pSecio;

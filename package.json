@@ -1,5 +1,5 @@
 {
-  "name": "@chainsafe/libp2p-ts",
+  "name": "libp2p-ts",
   "version": "0.1.0",
   "description": "Typescript definitions that are not (yet) available on https://github.com/DefinitelyTyped/DefinitelyTyped",
   "repository": "https://github.com/chainsafe/libp2p-ts.git",

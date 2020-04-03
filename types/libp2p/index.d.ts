@@ -9,14 +9,12 @@
 /// <reference types="libp2p-kad-dht"/>
 /// <reference types="libp2p-mdns"/>
 /// <reference types="libp2p-mplex"/>
-/// <reference types="libp2p-secio"/>
 /// <reference types="libp2p-spdy"/>
 /// <reference types="peer-info"/>
 /// <reference types="peer-id"/>
 
-import * as PeerId from "peer-id";
-
 declare namespace LibP2p {
+
     export type OptionsConfig = {
         contentRouting?: {},
         dht?: {
@@ -76,22 +74,22 @@ declare namespace LibP2p {
         peerInfo: PeerInfo,
     };
 
+    export interface ConnectionEncryption {
+        protocol: string,
+        secureInbound(localPeer: import("peer-id"), connection: LibP2pConnection, remotePeer: import("peer-id")): Promise<SecureConnection>;
+        secureOutbound(localPeer: import("peer-id"), connection: LibP2pConnection, remotePeer?: import("peer-id")): Promise<SecureConnection>;
+    }
+
+    export interface SecureConnection {
+        conn: LibP2pConnection,
+        remotePeer: import("peer-id")
+    }
+
     export type Events = 'peer:connect' | 'peer:disconnect' | 'peer:discovery' | 'start' | 'stop';
 }
 
 declare class PeerStore {
     readonly peers: Map<string, PeerInfo>;
-}
-
-declare interface ConnectionEncryption {
-    protocol: string,
-    secureInbound(localPeer: PeerId, connection: LibP2pConnection, remotePeer: PeerId): Promise<SecureConnection>;
-    secureOutbound(localPeer: PeerId, connection: LibP2pConnection, remotePeer?: PeerId): Promise<SecureConnection>;
-}
-
-declare interface SecureConnection {
-    conn: LibP2pConnection,
-    remotePeer: PeerId
 }
 
 declare class Registrar {
