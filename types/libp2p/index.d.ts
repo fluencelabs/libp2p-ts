@@ -9,11 +9,12 @@
 /// <reference types="libp2p-kad-dht"/>
 /// <reference types="libp2p-mdns"/>
 /// <reference types="libp2p-mplex"/>
-/// <reference types="libp2p-secio"/>
 /// <reference types="libp2p-spdy"/>
 /// <reference types="peer-info"/>
+/// <reference types="peer-id"/>
 
 declare namespace LibP2p {
+
     export type OptionsConfig = {
         contentRouting?: {},
         dht?: {
@@ -60,7 +61,7 @@ declare namespace LibP2p {
     };
 
     export type OptionsModules = {
-        connEncryption?: Array<LibP2pSecio>,
+        connEncryption?: Array<ConnectionEncryption>,
         streamMuxer: Array<LibP2pMplex | LibP2pSpdy>,
         dht?: typeof LibP2pKadDht,
         peerDiscovery: Array<typeof LibP2pBootstrap | typeof LibP2pMdns>,
@@ -72,6 +73,17 @@ declare namespace LibP2p {
         modules: OptionsModules,
         peerInfo: PeerInfo,
     };
+
+    export interface ConnectionEncryption {
+        protocol: string,
+        secureInbound(localPeer: import("peer-id"), connection: LibP2pConnection, remotePeer: import("peer-id")): Promise<SecureConnection>;
+        secureOutbound(localPeer: import("peer-id"), connection: LibP2pConnection, remotePeer?: import("peer-id")): Promise<SecureConnection>;
+    }
+
+    export interface SecureConnection {
+        conn: LibP2pConnection,
+        remotePeer: import("peer-id")
+    }
 
     export type Events = 'peer:connect' | 'peer:disconnect' | 'peer:discovery' | 'start' | 'stop';
 }
