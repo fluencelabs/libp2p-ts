@@ -12,6 +12,9 @@
 /// <reference types="libp2p-secio"/>
 /// <reference types="libp2p-spdy"/>
 /// <reference types="peer-info"/>
+/// <reference types="peer-id"/>
+
+import * as PeerId from "peer-id";
 
 declare namespace LibP2p {
     export type OptionsConfig = {
@@ -60,7 +63,7 @@ declare namespace LibP2p {
     };
 
     export type OptionsModules = {
-        connEncryption?: Array<LibP2pSecio>,
+        connEncryption?: Array<ConnectionEncryption>,
         streamMuxer: Array<LibP2pMplex | LibP2pSpdy>,
         dht?: typeof LibP2pKadDht,
         peerDiscovery: Array<typeof LibP2pBootstrap | typeof LibP2pMdns>,
@@ -78,6 +81,17 @@ declare namespace LibP2p {
 
 declare class PeerStore {
     readonly peers: Map<string, PeerInfo>;
+}
+
+declare interface ConnectionEncryption {
+    protocol: string,
+    secureInbound(localPeer: PeerId, connection: LibP2pConnection, remotePeer: PeerId): Promise<SecureConnection>;
+    secureOutbound(localPeer: PeerId, connection: LibP2pConnection, remotePeer?: PeerId): Promise<SecureConnection>;
+}
+
+declare interface SecureConnection {
+    conn: LibP2pConnection,
+    remotePeer: PeerId
 }
 
 declare class Registrar {
