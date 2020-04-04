@@ -13,6 +13,7 @@
   "dependencies": {
     "@types/node": "^13.7.0",
     "libp2p-crypto": "^0.17.2",
+    "libp2p-gossipsub": "^0.2.6",
     "multiaddr": "^7.4.3",
     "peer-id": "^0.13.7"
   },
