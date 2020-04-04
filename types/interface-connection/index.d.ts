@@ -19,8 +19,8 @@ declare interface LibP2pConnection {
     removeStream(id: string): void;
     streams: Stream[];
     registry: Map<string, Stream>;
-    localAddr: Multiaddr.Multiaddr;
-    remoteAddr: Multiaddr.Multiaddr;
+    localAddr: import("multiaddr");
+    remoteAddr: import("multiaddr");
     stat: {status: 'open' | 'closing' | 'closed'; timeline: {open: Date; upgraded: Date; close: Date}; direction: 'inbound' | 'outbound'; multiplexer: string; encryption: string; tags: string[]}
     close(): Promise<void>;
 }

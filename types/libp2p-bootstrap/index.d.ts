@@ -8,7 +8,7 @@
 
 declare namespace LibP2pBootstrap {
   type Options = {
-    list: Array<string | Multiaddr.Multiaddr>,
+    list: Array<string | import("multiaddr")>,
     interval?: number
   };
 
