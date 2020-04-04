@@ -25,7 +25,7 @@ declare namespace LibP2p {
             enabled?: boolean,
             bootstrap?: {
                 enabled?: boolean,
-                list: Array<string | Multiaddr.Multiaddr>,
+                list: Array<string | import("multiaddr")>,
                 interval?: number,
             },
             mdns?: {
@@ -110,16 +110,16 @@ declare class LibP2p {
     readonly peerStore: PeerStore;
     readonly registrar: Registrar;
 
-    dial(peerInfo: PeerInfo | import("peer-id") | Multiaddr.Multiaddr | string, options?: Object): Promise<LibP2pConnection | {stream: Stream; protocol: string}>;
-    dialProtocol(peerInfo: PeerInfo | import("peer-id") | Multiaddr.Multiaddr | string, protocols: string[] | string, options?: Object): Promise<LibP2pConnection | {stream: Stream; protocol: string}>;
-    hangUp(peerInfo: PeerInfo | import("peer-id") | Multiaddr.Multiaddr | string): Promise<void>;
+    dial(peerInfo: PeerInfo | import("peer-id") | import("multiaddr") | string, options?: Object): Promise<LibP2pConnection | {stream: Stream; protocol: string}>;
+    dialProtocol(peerInfo: PeerInfo | import("peer-id") | import("multiaddr") | string, protocols: string[] | string, options?: Object): Promise<LibP2pConnection | {stream: Stream; protocol: string}>;
+    hangUp(peerInfo: PeerInfo | import("peer-id") | import("multiaddr") | string): Promise<void>;
     handle(protocols: string[] | string, handler: (param: {connection: LibP2pConnection; stream: Stream; protocol: string}) => void): void;
     unhandle(protocols: string[] | string): void;
     isStarted(): boolean;
     on(event: LibP2p.Events, cb: (event: any) => any): this;
     once(event: LibP2p.Events, cb: (event: any) => any): this;
     removeListener(event: LibP2p.Events, cb: (event: any) => any): this;
-    ping(peerInfo: PeerInfo | import("peer-id") | Multiaddr.Multiaddr | string): Promise<void>;
+    ping(peerInfo: PeerInfo | import("peer-id") | import("multiaddr") | string): Promise<void>;
     start(): Promise<void>;
     stop(): Promise<void>;
 }
