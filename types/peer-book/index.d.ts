@@ -5,6 +5,8 @@
 
 /// <reference types="peer-info"/>
 
+import * as PeerInfo from "peer-info";
+
 declare class PeerBook {
     constructor ();
 

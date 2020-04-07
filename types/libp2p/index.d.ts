@@ -13,6 +13,8 @@
 /// <reference types="peer-info"/>
 /// <reference types="peer-id"/>
 
+import * as PeerInfo from "peer-info";
+
 declare namespace LibP2p {
 
     export type OptionsConfig = {

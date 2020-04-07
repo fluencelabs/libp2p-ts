@@ -6,6 +6,8 @@
 /// <reference types="peer-info"/>
 /// <reference types="libp2p-bootstrap"/>
 
+import * as PeerInfo from "peer-info";
+
 declare namespace LibP2pMdns {
   type Options = {
     broadcast?: boolean,

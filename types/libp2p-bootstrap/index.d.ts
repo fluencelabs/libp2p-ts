@@ -6,6 +6,8 @@
 /// <reference types="multiaddr"/>
 /// <reference types="peer-info"/>
 
+import * as PeerInfo from "peer-info";
+
 declare namespace LibP2pBootstrap {
   type Options = {
     list: Array<string | import("multiaddr")>,
