@@ -64,7 +64,7 @@ declare namespace LibP2p {
         connEncryption?: Array<ConnectionEncryption>,
         streamMuxer: Array<LibP2pMplex | LibP2pSpdy>,
         dht?: typeof LibP2pKadDht,
-        peerDiscovery: Array<typeof LibP2pBootstrap | typeof LibP2pMdns>,
+        peerDiscovery: Array<typeof LibP2pBootstrap | typeof LibP2pMdns | typeof import("@chainsafe/discv5").Discv5Discovery>,
         transport: LibP2pTransport[]
     };
 
@@ -109,6 +109,7 @@ declare class LibP2p {
     readonly peerInfo: PeerInfo;
     readonly peerStore: PeerStore;
     readonly registrar: Registrar;
+    readonly _discovery: Map<"bootstrap" | "mdns" | "discv5", LibP2pBootstrap | LibP2pMdns | import("@chainsafe/discv5").Discv5Discovery>;
 
     dial(peerInfo: PeerInfo | import("peer-id") | import("multiaddr") | string, options?: Object): Promise<LibP2pConnection | {stream: Stream; protocol: string}>;
     dialProtocol(peerInfo: PeerInfo | import("peer-id") | import("multiaddr") | string, protocols: string[] | string, options?: Object): Promise<LibP2pConnection | {stream: Stream; protocol: string}>;
