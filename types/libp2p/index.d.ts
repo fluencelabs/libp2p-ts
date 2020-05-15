@@ -93,6 +93,7 @@ declare class PeerStore {
 }
 
 declare class Registrar {
+    connections: Map<string, LibP2pConnection[]>;
     getConnection(peerInfo: PeerInfo): LibP2pConnection;
     handle: Function;
     register(topology: Object): string;
