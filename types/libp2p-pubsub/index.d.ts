@@ -3,7 +3,7 @@
 /// <reference types="libp2p-gossipsub"/>
 
 declare interface LibP2pPubsubUtil {
-    normalizeInRpcMessage(msg: import("libp2p-gossipsub/src/message").Message): import("libp2p-gossipsub/src/message").Message;
+    normalizeInRpcMessage(msg: import("libp2p-gossipsub/src/message").Message): import("libp2p-gossipsub/src/message").InMessage;
 }
 
 declare module 'libp2p-pubsub' {

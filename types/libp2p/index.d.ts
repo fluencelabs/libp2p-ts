@@ -69,8 +69,8 @@ declare namespace LibP2p {
     export type Options = {
         config: OptionsConfig,
         modules: OptionsModules,
-        peerId: import("peer-id"),
-        addresses: {listen: string[]},
+        peerId?: import("peer-id"),
+        addresses?: {listen?: string[], announce?: string[], noAnnounce?: string[]},
     };
 
     export interface ConnectionEncryption {
