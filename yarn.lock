@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@chainsafe/discv5@^0.2.4":
-  version "0.2.4"
-  resolved "https://registry.yarnpkg.com/@chainsafe/discv5/-/discv5-0.2.4.tgz#5153463a89f46b37ca8a21414aba2b6460af20a3"
-  integrity sha512-Y/13eVEIEpGdWRa3sh1fsYISoHy8/2Y1E6OtzCNt/E2oAUpYVY3Xg4F7HBLnakndD39nl1Y19cruZb3CDx+lYQ==
+"@chainsafe/discv5@^0.2.5":
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/@chainsafe/discv5/-/discv5-0.2.5.tgz#30d05d2098117e4e2d452b6c8d942f06ffeb8081"
+  integrity sha512-iE/VAUzHGLUVI5F2+yavcKHGf+hpOAgKEp7n7VpTId7OnNeHrxUqovMedIBOoNteGb/FqRaojBW382RjnGYEdA==
   dependencies:
     base64url "^3.0.1"
     bcrypto "^4.2.8"
