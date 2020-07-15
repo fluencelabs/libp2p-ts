@@ -8,6 +8,7 @@
 declare interface Stream {
     source: Iterator<unknown> | (() => Iterator<unknown>);
     sink(source: AsyncIterator<unknown>): any;
+    close: () => void;
 }
 
 declare interface LibP2pConnection {
