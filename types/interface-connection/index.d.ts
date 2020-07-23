@@ -5,9 +5,12 @@
 
 /// <reference types="multiaddr"/>
 
+// model after abortable-iterator
+type Source<T> = AsyncIterable<T> | Iterable<T>;
+type Sink<TSource, TReturn = void> = (source: Source<TSource>) => TReturn
 declare interface Stream {
-    source: Iterator<unknown> | (() => Iterator<unknown>);
-    sink(source: AsyncIterator<unknown>): any;
+  source: Source<unknown>;
+  sink: Sink<unknown, unknown>;
     close: () => void;
 }
 
