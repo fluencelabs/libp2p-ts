@@ -7,11 +7,11 @@
 
 // model after abortable-iterator
 type Source<T> = AsyncIterable<T> | Iterable<T>;
-type Sink<TSource, TReturn = void> = (source: Source<TSource>) => TReturn
-declare interface Stream {
-  source: Source<unknown>;
-  sink: Sink<unknown, unknown>;
-    close: () => void;
+type Sink<TSource, TReturn = void> = (source: Source<TSource>) => TReturn;
+declare interface Stream<TSource = unknown, TReturn = unknown> {
+  source: Source<TSource>;
+  sink: Sink<TSource, TReturn>;
+  close: () => void;
 }
 
 declare interface LibP2pConnection {
