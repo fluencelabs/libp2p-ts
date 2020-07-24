@@ -5,10 +5,13 @@
 
 /// <reference types="multiaddr"/>
 
-declare interface Stream {
-    source: Iterator<unknown> | (() => Iterator<unknown>);
-    sink(source: AsyncIterator<unknown>): any;
-    close: () => void;
+// model after abortable-iterator
+type Source<T> = AsyncIterable<T> | Iterable<T>;
+type Sink<TSource, TReturn = void> = (source: Source<TSource>) => TReturn;
+declare interface Stream<TSource = unknown, TReturn = unknown> {
+  source: Source<TSource>;
+  sink: Sink<TSource, TReturn>;
+  close: () => void;
 }
 
 declare interface LibP2pConnection {
