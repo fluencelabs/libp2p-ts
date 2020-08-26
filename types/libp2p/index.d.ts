@@ -1,4 +1,4 @@
-// Type definitions for libp2p 0.22.0
+// Type definitions for libp2p 0.28.3
 // Project: https://github.com/libp2p/js-libp2p
 // Definitions by: Jaco Greeff <https://github.com/jacogr>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
@@ -10,8 +10,6 @@
 /// <reference types="libp2p-mdns"/>
 /// <reference types="libp2p-mplex"/>
 /// <reference types="libp2p-spdy"/>
-/// <reference types="peer-info"/>
-/// <reference types="peer-id"/>
 
 declare namespace LibP2p {
 
@@ -32,7 +30,7 @@ declare namespace LibP2p {
                 enabled?: boolean,
                 broadcast?: boolean,
                 interval?: number,
-                peerInfo: PeerInfo,
+                peerId: import("peer-id"),
                 port?: number,
                 serviceTag?: string
             },
@@ -64,14 +62,15 @@ declare namespace LibP2p {
         connEncryption?: Array<ConnectionEncryption>,
         streamMuxer: Array<LibP2pMplex | LibP2pSpdy>,
         dht?: typeof LibP2pKadDht,
-        peerDiscovery: Array<typeof LibP2pBootstrap | typeof LibP2pMdns>,
+        peerDiscovery: Array<typeof LibP2pBootstrap | typeof LibP2pMdns | typeof import("@chainsafe/discv5").Discv5Discovery>,
         transport: LibP2pTransport[]
     };
 
     export type Options = {
         config: OptionsConfig,
         modules: OptionsModules,
-        peerInfo: PeerInfo,
+        peerId?: import("peer-id"),
+        addresses?: {listen?: string[], announce?: string[], noAnnounce?: string[]},
     };
 
     export interface ConnectionEncryption {
@@ -85,18 +84,33 @@ declare namespace LibP2p {
         remotePeer: import("peer-id")
     }
 
-    export type Events = 'peer:connect' | 'peer:disconnect' | 'peer:discovery' | 'start' | 'stop';
+    export type Events =  'peer:discovery' | 'start' | 'stop';
+    export type ConnectionEvents = 'peer:connect' | 'peer:disconnect';
+}
+
+declare class AddressBook {
+    add(peerId: import("peer-id"), multiaddrs: import("multiaddr")[]): void;
+    getMultiaddrsForPeer(peerId: import("peer-id")): import("multiaddr")[];
 }
 
 declare class PeerStore {
-    readonly peers: Map<string, PeerInfo>;
+    readonly peers: Map<string, {id: import("peer-id"); addresses: {multiaddr: import("multiaddr")}[]; protocols: string[]}>;
+    readonly addressBook: AddressBook;
 }
 
 declare class Registrar {
-    getConnection(peerInfo: PeerInfo): LibP2pConnection;
-    handle: Function;
-    register(topology: Object): string;
-    unregister(id: string): boolean;
+    connections: Map<string, LibP2pConnection[]>;
+    getConnection(peerId: import("peer-id")): LibP2pConnection;
+    handle (): void
+    register (): void
+    unregister (): void
+}
+
+declare class ConnectionManager {
+    on(event: LibP2p.ConnectionEvents, cb: (event: LibP2pConnection) => any): this;
+    once(event: LibP2p.ConnectionEvents, cb: (event: LibP2pConnection) => any): this;
+    removeListener(event: LibP2p.ConnectionEvents, cb: (event: LibP2pConnection) => any): this;
+    get(peerId: import("peer-id")): LibP2pConnection | null;
 }
 
 declare class LibP2p {
@@ -106,20 +120,23 @@ declare class LibP2p {
 
     static create(options: LibP2p.Options): Promise<LibP2p>;
 
-    readonly peerInfo: PeerInfo;
+    readonly peerId: import("peer-id");
     readonly peerStore: PeerStore;
     readonly registrar: Registrar;
+    readonly connectionManager: ConnectionManager;
+    readonly _discovery: Map<"bootstrap" | "mdns" | "discv5", LibP2pBootstrap | LibP2pMdns | import("@chainsafe/discv5").Discv5Discovery>;
+    readonly multiaddrs: import("multiaddr")[];
 
-    dial(peerInfo: PeerInfo | import("peer-id") | import("multiaddr") | string, options?: Object): Promise<LibP2pConnection | {stream: Stream; protocol: string}>;
-    dialProtocol(peerInfo: PeerInfo | import("peer-id") | import("multiaddr") | string, protocols: string[] | string, options?: Object): Promise<LibP2pConnection | {stream: Stream; protocol: string}>;
-    hangUp(peerInfo: PeerInfo | import("peer-id") | import("multiaddr") | string): Promise<void>;
+    dial(peerInfo: import("peer-id") | import("multiaddr") | string, options?: Object): Promise<LibP2pConnection | {stream: Stream; protocol: string}>;
+    dialProtocol(peerInfo: import("peer-id") | import("multiaddr") | string, protocols: string[] | string, options?: Object): Promise<LibP2pConnection | {stream: Stream; protocol: string}>;
+    hangUp(peerInfo: import("peer-id") | import("multiaddr") | string): Promise<void>;
     handle(protocols: string[] | string, handler: (param: {connection: LibP2pConnection; stream: Stream; protocol: string}) => void): void;
     unhandle(protocols: string[] | string): void;
     isStarted(): boolean;
     on(event: LibP2p.Events, cb: (event: any) => any): this;
     once(event: LibP2p.Events, cb: (event: any) => any): this;
     removeListener(event: LibP2p.Events, cb: (event: any) => any): this;
-    ping(peerInfo: PeerInfo | import("peer-id") | import("multiaddr") | string): Promise<void>;
+    ping(peerInfo: import("peer-id") | import("multiaddr") | string): Promise<void>;
     start(): Promise<void>;
     stop(): Promise<void>;
 }
